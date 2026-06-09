@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiniela Guarisma 2026</title>
+  <link rel="icon" href="logo_guarisma.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="screen-login">
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="logo_guarisma.png" alt="Guarisma" />
+    </div>
+    <div class="login-title">GUARISMA 2026</div>
+    <div class="login-subtitle">Copa Mundial FIFA &bull; La Quiniela</div>
+    <div class="login-divider"></div>
+
+    <div class="login-field">
+      <label for="input-username">Usuario</label>
+      <input type="text" id="input-username" placeholder="tu.apodo" autocomplete="username" />
+    </div>
+    <div class="login-field">
+      <label for="input-password">Contrase&ntilde;a</label>
+      <input type="password" id="input-password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password" />
+    </div>
+
+    <button class="btn-login" id="btn-login">ENTRAR &rarr;</button>
+    <p id="login-error"></p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="screen-app" class="hidden">
+
+  <header class="app-header">
+    <div class="header-brand">
+      <img src="logo_guarisma.png" class="header-logo" alt="Guarisma" />
+      <span class="header-brand-text">GUARISMA 2026</span>
+    </div>
+    <div class="header-user">
+      <div class="user-avatar" id="user-avatar-header">?</div>
+      <span id="user-display-name"></span>
+      <button class="btn-change-pass" id="btn-change-pass" title="Cambiar contrase&ntilde;a">&#x1F512;</button>
+      <button class="btn-logout" id="btn-logout">Salir</button>
+    </div>
+  </header>
+
+  <nav class="app-nav">
+    <button class="nav-btn active" data-view="home">
+      <span class="nav-icon">&#x26BD;</span>Hoy
+    </button>
+    <button class="nav-btn" data-view="predictions">
+      <span class="nav-icon">&#x1F3AF;</span>Mis Picks
+    </button>
+    <button class="nav-btn" data-view="leaderboard">
+      <span class="nav-icon">&#x1F3C6;</span>Tabla
+    </button>
+    <button class="nav-btn" data-view="grupos">
+      <span class="nav-icon">&#x1F4CA;</span>Grupos
+    </button>
+  </nav>
+
+  <main class="app-content">
+
+    <!-- HOME -->
+    <section id="view-home" class="view-section">
+      <div class="view-header">
+        <div class="view-title">Partidos del D&iacute;a</div>
+        <div class="view-subtitle">Copa Mundial 2026 &bull; Hora El Salvador</div>
+      </div>
+      <div id="matches-today"><p class="empty-state">Cargando&hellip;</p></div>
+    </section>
+
+    <!-- PREDICCIONES -->
+    <section id="view-predictions" class="view-section hidden">
+      <div class="view-header">
+        <div class="view-title">Mis Picks</div>
+        <div class="view-subtitle">Cierre 1 hora antes de cada partido</div>
+      </div>
+      <div class="search-box">
+        <span class="search-icon">&#x1F50D;</span>
+        <input type="text" id="pred-search" placeholder="Buscar equipo&hellip;" />
+      </div>
+      <div id="predictions-list"><p class="empty-state">Cargando&hellip;</p></div>
+    </section>
+
+    <!-- LEADERBOARD -->
+    <section id="view-leaderboard" class="view-section hidden">
+      <div class="view-header">
+        <div class="view-title">Tabla de Puntos</div>
+        <div class="view-subtitle">Live &bull; Se actualiza autom&aacute;ticamente</div>
+      </div>
+      <div class="scoring-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#333"></div>0 &mdash; Nada</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#D4A017"></div>1 &mdash; Resultado</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fff"></div>3 &mdash; Exacto</div>
+      </div>
+      <div id="leaderboard-list"></div>
+    </section>
+
+    <!-- GRUPOS -->
+    <section id="view-grupos" class="view-section hidden">
+      <div class="view-header">
+        <div class="view-title">Tabla de Grupos</div>
+        <div class="view-subtitle">Top 2 de cada grupo avanzan &bull; Se actualiza con los resultados</div>
+      </div>
+      <div class="grupos-grid" id="grupos-list">
+        <p class="empty-state">Cargando&hellip;</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- MODAL CONTRASEÑA -->
+<div class="modal-overlay hidden" id="modal-pass">
+  <div class="modal-box">
+    <h3>&#x1F512; Cambiar Contrase&ntilde;a</h3>
+    <div class="form-field">
+      <label>Contrase&ntilde;a actual</label>
+      <input type="password" id="pass-current" placeholder="La que usas ahora" />
+    </div>
+    <div class="form-field">
+      <label>Nueva contrase&ntilde;a</label>
+      <input type="password" id="pass-new" placeholder="M\u00ednimo 6 caracteres" />
+    </div>
+    <div class="form-field">
+      <label>Confirmar nueva contrase&ntilde;a</label>
+      <input type="password" id="pass-confirm" placeholder="Rep\u00edetela" />
+    </div>
+    <p id="pass-error" class="pass-error"></p>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" id="btn-cancel-pass">Cancelar</button>
+      <button class="btn-modal-save" id="btn-save-pass">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/matches-data.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

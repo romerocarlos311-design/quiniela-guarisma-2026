@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin &mdash; Quiniela Guarisma 2026</title>
+  <link rel="icon" href="../logo_guarisma.png" />
+  <link rel="stylesheet" href="../css/admin.css" />
+</head>
+<body>
+
+<header class="admin-header">
+  <div class="admin-brand">
+    GUARISMA <span>2026</span>
+    <small>&#x2699; Panel Admin</small>
+  </div>
+  <div class="admin-user">
+    Bienvenido, <strong id="admin-name"></strong>
+    <button class="btn-admin-logout" id="btn-admin-logout">Salir</button>
+  </div>
+</header>
+
+<div class="admin-tabs">
+  <button class="admin-tab active" data-tab="users">&#x1F465; Panas</button>
+  <button class="admin-tab" data-tab="matches">&#x26BD; Partidos</button>
+  <button class="admin-tab" data-tab="actividad">&#x1F4CA; Actividad</button>
+  <button class="admin-tab" data-tab="stats">&#x1F3C6; Resumen</button>
+</div>
+
+<div class="admin-content">
+
+  <!-- USUARIOS -->
+  <div class="admin-panel" id="panel-users">
+    <h2>Panas de la Quiniela</h2>
+    <div class="toolbar">
+      <button class="btn-primary" id="btn-new-user">+ Agregar Pana</button>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr><th>Nombre</th><th>Usuario</th><th>Email</th><th>Rol</th><th>Estado</th><th>Puntos</th><th>Acciones</th></tr>
+        </thead>
+        <tbody id="users-table-body">
+          <tr><td colspan="7" style="text-align:center;padding:2rem;color:#888">Cargando&hellip;</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PARTIDOS -->
+  <div class="admin-panel hidden" id="panel-matches">
+    <h2>Partidos del Mundial</h2>
+    <div class="toolbar">
+      <button class="btn-primary" id="btn-new-match">+ Nuevo Partido</button>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr><th>Fecha/Hora</th><th>Partido</th><th>Grupo</th><th>Estado</th><th>Resultado</th><th>Acciones</th></tr>
+        </thead>
+        <tbody id="matches-table-body">
+          <tr><td colspan="6" style="text-align:center;padding:2rem;color:#888">Cargando&hellip;</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ACTIVIDAD -->
+  <div class="admin-panel hidden" id="panel-actividad">
+    <h2>Actividad</h2>
+    <p style="font-size:.82rem;color:#888;margin-bottom:1.25rem">Cu&aacute;ntas predicciones ha ingresado cada pana.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.75rem;margin-bottom:1.5rem">
+      <div class="stat-card">
+        <div id="stat-act-total" class="stat-num">-</div>
+        <div class="stat-label">Total panas</div>
+      </div>
+      <div class="stat-card" style="border-top-color:#22c55e">
+        <div id="stat-act-activos" class="stat-num" style="color:#22c55e">-</div>
+        <div class="stat-label">Han predicho</div>
+      </div>
+      <div class="stat-card" style="border-top-color:#e63946">
+        <div id="stat-act-inactivos" class="stat-num" style="color:#e63946">-</div>
+        <div class="stat-label">Sin actividad</div>
+      </div>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr><th>#</th><th>Nombre</th><th style="text-align:center">Predicciones</th><th>Participaci&oacute;n</th><th>Estado</th></tr>
+        </thead>
+        <tbody id="actividad-table-body">
+          <tr><td colspan="5" style="text-align:center;padding:2rem;color:#888">Selecciona esta pesta&ntilde;a para cargar&hellip;</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="admin-panel hidden" id="panel-stats">
+    <h2>Resumen del Torneo</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:2rem">
+      <div class="stat-card">
+        <div id="stat-users" class="stat-num">-</div>
+        <div class="stat-label">Panas activos</div>
+      </div>
+      <div class="stat-card" style="border-top-color:#22c55e">
+        <div id="stat-matches-done" class="stat-num" style="color:#22c55e">-</div>
+        <div class="stat-label">Partidos jugados</div>
+      </div>
+      <div class="stat-card">
+        <div id="stat-predictions" class="stat-num">-</div>
+        <div class="stat-label">Predicciones totales</div>
+      </div>
+      <div class="stat-card" style="border-top-color:#D4A017">
+        <div id="stat-leader" class="stat-num" style="font-size:1rem">-</div>
+        <div class="stat-label">&#x1F947; L&iacute;der</div>
+      </div>
+    </div>
+    <button class="btn-secondary" onclick="loadStats()">&#x1F504; Actualizar</button>
+  </div>
+
+</div>
+
+<!-- MODAL USUARIO -->
+<div class="modal-overlay hidden" id="user-modal">
+  <div class="modal-box">
+    <h3 id="modal-user-title">Agregar Pana</h3>
+    <form id="user-form" onsubmit="return false">
+      <input type="hidden" id="user-uid" />
+      <input type="hidden" id="user-avatar-color" value="#D4A017" />
+      <div class="form-field">
+        <label>Apodo / Nombre</label>
+        <input type="text" id="user-display-name" placeholder="Pope" required />
+      </div>
+      <div class="form-field">
+        <label>Usuario (para login)</label>
+        <input type="text" id="user-username" placeholder="pope" required />
+      </div>
+      <div class="form-field">
+        <label>Email (ficticio est\u00e1 bien, ej: pope@guarisma.sv)</label>
+        <input type="email" id="user-email" required />
+      </div>
+      <div class="form-field">
+        <label>Contrase\u00f1a inicial</label>
+        <input type="text" id="user-password" placeholder="Guarisma2026!" />
+      </div>
+      <div class="form-field">
+        <label>Color de avatar</label>
+        <div id="user-color-picker" style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.3rem"></div>
+      </div>
+      <label class="form-check"><input type="checkbox" id="user-is-admin" /> Es admin</label>
+      <label class="form-check"><input type="checkbox" id="user-disabled" /> Desactivado</label>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="btn-cancel-user" type="button">Cancelar</button>
+        <button class="btn-primary" type="submit">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL PARTIDO -->
+<div class="modal-overlay hidden" id="match-modal">
+  <div class="modal-box">
+    <h3>Partido</h3>
+    <form id="match-form" onsubmit="return false">
+      <input type="hidden" id="match-uid" />
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+        <div class="form-field"><label>Local</label><input type="text" id="match-home" required /></div>
+        <div class="form-field"><label>Visitante</label><input type="text" id="match-away" required /></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+        <div class="form-field"><label>Grupo</label><input type="text" id="match-group" maxlength="2" /></div>
+        <div class="form-field"><label>Fase</label>
+          <select id="match-stage">
+            <option value="grupo">Fase de Grupos</option>
+            <option value="octavos">Octavos</option>
+            <option value="cuartos">Cuartos</option>
+            <option value="semis">Semis</option>
+            <option value="tercero">3er Puesto</option>
+            <option value="final">Final</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field"><label>Fecha y Hora (Hora SV)</label><input type="datetime-local" id="match-datetime" required /></div>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="btn-cancel-match" type="button">Cancelar</button>
+        <button class="btn-primary" type="submit">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="admin-toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="../js/firebase-config.js"></script>
+<script src="../js/matches-data.js"></script>
+<script src="../js/admin.js"></script>
+
+</body>
+</html>
