@@ -9,33 +9,22 @@
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="screen-login">
   <div class="login-card">
-    <div class="login-logo">
-      <img src="logo_guarisma.png" alt="Guarisma" />
-    </div>
+    <div class="login-logo"><img src="logo_guarisma.png" alt="Guarisma" /></div>
     <div class="login-title">GUARISMA 2026</div>
     <div class="login-subtitle">Copa Mundial FIFA &bull; La Quiniela</div>
     <div class="login-divider"></div>
-
-    <div class="login-field">
-      <label for="input-username">Usuario</label>
-      <input type="text" id="input-username" placeholder="tu.apodo" autocomplete="username" />
-    </div>
-    <div class="login-field">
-      <label for="input-password">Contrase&ntilde;a</label>
-      <input type="password" id="input-password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password" />
-    </div>
-
+    <div class="login-field"><label for="input-username">Usuario</label>
+      <input type="text" id="input-username" placeholder="tu.apodo" autocomplete="username" /></div>
+    <div class="login-field"><label for="input-password">Contrase&ntilde;a</label>
+      <input type="password" id="input-password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password" /></div>
     <button class="btn-login" id="btn-login">ENTRAR &rarr;</button>
     <p id="login-error"></p>
   </div>
 </div>
 
-<!-- APP -->
 <div id="screen-app" class="hidden">
-
   <header class="app-header">
     <div class="header-brand">
       <img src="logo_guarisma.png" class="header-logo" alt="Guarisma" />
@@ -50,23 +39,14 @@
   </header>
 
   <nav class="app-nav">
-    <button class="nav-btn active" data-view="home">
-      <span class="nav-icon">&#x26BD;</span>Hoy
-    </button>
-    <button class="nav-btn" data-view="predictions">
-      <span class="nav-icon">&#x1F3AF;</span>Mis Picks
-    </button>
-    <button class="nav-btn" data-view="leaderboard">
-      <span class="nav-icon">&#x1F3C6;</span>Tabla
-    </button>
-    <button class="nav-btn" data-view="grupos">
-      <span class="nav-icon">&#x1F4CA;</span>Grupos
-    </button>
+    <button class="nav-btn active" data-view="home"><span class="nav-icon">&#x26BD;</span>Hoy</button>
+    <button class="nav-btn" data-view="predictions"><span class="nav-icon">&#x1F3AF;</span>Mis Picks</button>
+    <button class="nav-btn" data-view="leaderboard"><span class="nav-icon">&#x1F3C6;</span>Tabla</button>
+    <button class="nav-btn" data-view="grupos"><span class="nav-icon">&#x1F4CA;</span>Grupos</button>
+    <button class="nav-btn" data-view="weekly"><span class="nav-icon">&#x1F4C5;</span>Semanal</button>
   </nav>
 
   <main class="app-content">
-
-    <!-- HOME -->
     <section id="view-home" class="view-section">
       <div class="view-header">
         <div class="view-title">Partidos del D&iacute;a</div>
@@ -75,11 +55,10 @@
       <div id="matches-today"><p class="empty-state">Cargando&hellip;</p></div>
     </section>
 
-    <!-- PREDICCIONES -->
     <section id="view-predictions" class="view-section hidden">
       <div class="view-header">
         <div class="view-title">Mis Picks</div>
-        <div class="view-subtitle">Cierre 1 hora antes de cada partido</div>
+        <div class="view-subtitle">Cierre 30 minutos antes de cada partido</div>
       </div>
       <div class="search-box">
         <span class="search-icon">&#x1F50D;</span>
@@ -88,7 +67,6 @@
       <div id="predictions-list"><p class="empty-state">Cargando&hellip;</p></div>
     </section>
 
-    <!-- LEADERBOARD -->
     <section id="view-leaderboard" class="view-section hidden">
       <div class="view-header">
         <div class="view-title">Tabla de Puntos</div>
@@ -100,38 +78,36 @@
         <div class="legend-item"><div class="legend-dot" style="background:#fff"></div>3 &mdash; Exacto</div>
       </div>
       <div id="leaderboard-list"></div>
+      <div id="leaderboard-footer"></div>
     </section>
 
-    <!-- GRUPOS -->
     <section id="view-grupos" class="view-section hidden">
       <div class="view-header">
         <div class="view-title">Tabla de Grupos</div>
-        <div class="view-subtitle">Top 2 de cada grupo avanzan &bull; Se actualiza con los resultados</div>
+        <div class="view-subtitle">Top 2 de cada grupo avanzan</div>
       </div>
-      <div class="grupos-grid" id="grupos-list">
-        <p class="empty-state">Cargando&hellip;</p>
-      </div>
+      <div class="grupos-grid" id="grupos-list"><p class="empty-state">Cargando&hellip;</p></div>
     </section>
 
+    <section id="view-weekly" class="view-section hidden">
+      <div class="view-header">
+        <div class="view-title">Puntos Semanales</div>
+        <div class="view-subtitle">Ranking de lunes a domingo &bull; Premio semanal</div>
+      </div>
+      <div id="weekly-list"><p class="empty-state">Cargando&hellip;</p></div>
+    </section>
   </main>
 </div>
 
-<!-- MODAL CONTRASEÑA -->
 <div class="modal-overlay hidden" id="modal-pass">
   <div class="modal-box">
     <h3>&#x1F512; Cambiar Contrase&ntilde;a</h3>
-    <div class="form-field">
-      <label>Contrase&ntilde;a actual</label>
-      <input type="password" id="pass-current" placeholder="La que usas ahora" />
-    </div>
-    <div class="form-field">
-      <label>Nueva contrase&ntilde;a</label>
-      <input type="password" id="pass-new" placeholder="M\u00ednimo 6 caracteres" />
-    </div>
-    <div class="form-field">
-      <label>Confirmar nueva contrase&ntilde;a</label>
-      <input type="password" id="pass-confirm" placeholder="Rep\u00edetela" />
-    </div>
+    <div class="form-field"><label>Contrase&ntilde;a actual</label>
+      <input type="password" id="pass-current" /></div>
+    <div class="form-field"><label>Nueva contrase&ntilde;a</label>
+      <input type="password" id="pass-new" placeholder="M\u00ednimo 6 caracteres" /></div>
+    <div class="form-field"><label>Confirmar nueva</label>
+      <input type="password" id="pass-confirm" /></div>
     <p id="pass-error" class="pass-error"></p>
     <div class="modal-actions">
       <button class="btn-modal-cancel" id="btn-cancel-pass">Cancelar</button>
@@ -148,6 +124,5 @@
 <script src="js/firebase-config.js"></script>
 <script src="js/matches-data.js"></script>
 <script src="js/app.js"></script>
-
 </body>
 </html>
