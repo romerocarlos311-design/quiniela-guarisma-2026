@@ -331,9 +331,10 @@ function renderMatchCard(m,showPred=false) {
       <button class="btn-penalty ${pred&&pred.penaltyWinner===m.away?"active":""}" data-match="${m.id}" data-team="${m.away}" ${locked?"disabled":""} onclick="setPenalty('${m.id}','${m.away}',this)">${m.away}</button>
     </div>`:""}
     ${isKnockout&&!locked?`<div class="knockout-pts-legend">
-      <span>\uD83D\uDFE1 Solo empate = 1 pt</span>
-      <span>\uD83D\uDFE0 Marcador exacto O penales = 2 pts</span>
-      <span>\uD83D\uDFE2 Marcador exacto + penales = 3 pts</span>
+      <span>&#x1F7E1; Solo empate (sin elegir penales) = 1 pt</span>
+      <span>&#x1F7E0; Marcador exacto O ganador penales = 2 pts</span>
+      <span>&#x1F7E2; Marcador exacto + ganador penales = 3 pts</span>
+      <span class="knockout-pts-note">* Los puntos de penales aplican solo si seleccionas quién gana abajo</span>
     </div>`:""}
   `:"";
   const pts=(pred&&m.status==="finished")
